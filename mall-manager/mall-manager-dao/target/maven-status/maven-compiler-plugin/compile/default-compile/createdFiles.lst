@@ -1,0 +1,11 @@
+com\wuliji\mapper\TbContentCategoryMapper.class
+com\wuliji\mapper\TbUserMapper.class
+com\wuliji\mapper\TbContentMapper.class
+com\wuliji\mapper\TbItemDescMapper.class
+com\wuliji\mapper\TbOrderItemMapper.class
+com\wuliji\mapper\TbItemCatMapper.class
+com\wuliji\mapper\TbOrderShippingMapper.class
+com\wuliji\mapper\TbItemMapper.class
+com\wuliji\mapper\TbOrderMapper.class
+com\wuliji\mapper\TbItemParamItemMapper.class
+com\wuliji\mapper\TbItemParamMapper.class
