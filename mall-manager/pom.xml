@@ -20,7 +20,6 @@
   	<module>mall-manager-dao</module>
   	<module>mall-manager-interface</module>
   	<module>mall-manager-service</module>
-  	<module>mall-manager-web</module>
   </modules>
   
   <!-- 配置tomcat插件 -->
