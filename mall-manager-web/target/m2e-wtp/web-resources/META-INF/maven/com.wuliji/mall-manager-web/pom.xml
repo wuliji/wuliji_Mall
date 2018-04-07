@@ -81,6 +81,7 @@
 		<artifactId>jsp-api</artifactId>
 		<scope>provided</scope>
 	</dependency>
+
   </dependencies>
   <!-- 配置tomcat插件 -->
   <build>
@@ -90,7 +91,7 @@
 			<artifactId>tomcat7-maven-plugin</artifactId>
 			<configuration>
 				<path>/</path>
-				<port>8082</port>
+				<port>8083</port>
 			</configuration>
   		</plugin>
   	</plugins>
