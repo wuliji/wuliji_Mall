@@ -21,4 +21,10 @@ public class PageController {
 	public String showPage(@PathVariable String page) {
 		return page;
 	}
+	
+	@RequestMapping("/rest/page/{page}")
+	public String showEditPage(@PathVariable String page) {
+		return page;
+	}
+	
 }

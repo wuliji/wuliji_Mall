@@ -81,5 +81,38 @@ public class ItemServiceImpl implements ItemService{
 		//返回成功
 		return MallResult.ok();
 	}
+
+	@Override
+	/**
+	 * 商品删除
+	 */
+	public MallResult deleteItem(String[] ids) {
+		for (String id : ids) {
+			itemMapper.deleteByPrimaryKey(Long.valueOf(id));
+		}
+		return MallResult.ok();
+	}
+
+	@Override
+	/**
+	 * 查询商品信息
+	 */
+	public MallResult editItem(Long id) {
+		TbItem item = itemMapper.selectByPrimaryKey(id);
+		MallResult result = new MallResult();
+		result.setData(item);
+		return result;
+	}
+
+	@Override
+	/**
+	 * 查询商品描述
+	 */
+	public MallResult editItemDesc(Long id) {
+		TbItemDesc data = itemDescMapper.selectByPrimaryKey(id);
+		MallResult result = new MallResult();
+		result.setData(data);
+		return result;
+	}
 	
 }

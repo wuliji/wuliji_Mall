@@ -9,4 +9,7 @@ public interface ItemService {
 	TbItem getItemById(long itemId);
 	EasyUIDataGridResult getItemList(int page, int rows);
 	MallResult addItem(TbItem item, String desc);
+	MallResult deleteItem(String[] ids);
+	MallResult editItem(Long id);
+	MallResult editItemDesc(Long id);
 }

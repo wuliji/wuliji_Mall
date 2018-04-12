@@ -1,8 +1,11 @@
 package com.wuliji.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,4 +57,33 @@ public class ItemController {
 		return result;
 	}
 	
+	/**
+	 * 商品删除功能
+	 */
+	@RequestMapping("/rest/item/delete")
+	@ResponseBody
+	public MallResult deleteItem(String[] ids) {
+		MallResult result = itemService.deleteItem(ids);
+		return result;
+	}
+	
+	/**
+	 * 根据id查询商品信息
+	 */
+	@RequestMapping("/rest/item/param/item/query/{id}")
+	@ResponseBody
+	public MallResult editItem(@PathVariable Long id) {
+		MallResult result = itemService.editItem(id);
+		return result;
+	}
+	
+	/**
+	 * 根据id查询描述
+	 */
+	@RequestMapping("/rest/item/query/item/desc/{id}")
+	@ResponseBody
+	public MallResult editItemDesc(@PathVariable Long id) {
+		MallResult result = itemService.editItemDesc(id);
+		return result;
+	}
 }
