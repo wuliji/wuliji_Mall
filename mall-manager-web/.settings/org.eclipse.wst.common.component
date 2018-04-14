@@ -16,6 +16,9 @@
         <dependent-module archiveName="fastdfs_client-1.25.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/fastdfs_client/fastdfs_client">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="mall-content-interface-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mall-content-interface/mall-content-interface">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="mall-manager-web"/>
         <property name="java-output-path" value="/mall-manager-web/target/classes"/>
     </wb-module>

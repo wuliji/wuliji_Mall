@@ -35,5 +35,6 @@
 	<dubbo:application name="mall-manager-web"/>
 	<dubbo:registry protocol="zookeeper" address="192.168.25.128:2181"/>	
 	<dubbo:reference interface="com.wuliji.service.ItemService" id="itemService" />
-	<dubbo:reference interface="com.wuliji.service.ItemCatService" id="itemCatService" /> 
+	<dubbo:reference interface="com.wuliji.service.ItemCatService" id="itemCatService" />
+	<dubbo:reference interface="com.wuliji.content.service.ContentCategoryService" id="contentCategoryServiceImpl" />
 </beans>
