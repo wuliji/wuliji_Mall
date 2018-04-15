@@ -11,7 +11,7 @@
     <dependencies>
   	<dependency>
   		<groupId>com.wuliji</groupId>
-	    <artifactId>mall-manager-interface</artifactId>
+	    <artifactId>mall-content-interface</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	<!-- dubbo相关 -->

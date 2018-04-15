@@ -1,2 +1,6 @@
 com\wuliji\controller\ItemController.class
 com\wuliji\controller\PageController.class
+com\wuliji\controller\ContentCatController.class
+com\wuliji\controller\ContentController.class
+com\wuliji\controller\ItemCatController.class
+com\wuliji\controller\PictureController.class

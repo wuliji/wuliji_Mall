@@ -37,4 +37,5 @@
 	<dubbo:reference interface="com.wuliji.service.ItemService" id="itemService" />
 	<dubbo:reference interface="com.wuliji.service.ItemCatService" id="itemCatService" />
 	<dubbo:reference interface="com.wuliji.content.service.ContentCategoryService" id="contentCategoryServiceImpl" />
+	<dubbo:reference interface="com.wuliji.content.service.ContentService" id="contentServiceImpl" />
 </beans>

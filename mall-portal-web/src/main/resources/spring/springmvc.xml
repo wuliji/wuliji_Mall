@@ -25,5 +25,5 @@
 	<!-- 引用dubbo服务 -->
 	<dubbo:application name="mall-portal-web"/>
 	<dubbo:registry protocol="zookeeper" address="192.168.25.128:2181"/>
-	<!-- dubbo:reference interface="com.wuliji.service.ItemService" id="itemService" /> -->
+	<dubbo:reference interface="com.wuliji.content.service.ContentService" id="contentService" />
 </beans>
