@@ -15,6 +15,8 @@ import com.wuliji.mapper.TbItemDescMapper;
 import com.wuliji.mapper.TbItemMapper;
 import com.wuliji.pojo.TbItem;
 import com.wuliji.pojo.TbItemDesc;
+import com.wuliji.pojo.TbItemDescExample;
+import com.wuliji.pojo.TbItemExample.Criteria;
 import com.wuliji.pojo.TbItemExample;
 import com.wuliji.service.ItemService;
 
@@ -99,9 +101,7 @@ public class ItemServiceImpl implements ItemService{
 	 */
 	public MallResult editItem(Long id) {
 		TbItem item = itemMapper.selectByPrimaryKey(id);
-		MallResult result = new MallResult();
-		result.setData(item);
-		return result;
+		return MallResult.ok(item);
 	}
 
 	@Override
@@ -110,9 +110,52 @@ public class ItemServiceImpl implements ItemService{
 	 */
 	public MallResult editItemDesc(Long id) {
 		TbItemDesc data = itemDescMapper.selectByPrimaryKey(id);
-		MallResult result = new MallResult();
-		result.setData(data);
-		return result;
+		return MallResult.ok(data);
+	}
+
+	@Override
+	public MallResult updateItem(TbItem item, String desc) {
+		//修改更新时间
+		Long id = item.getId();
+		TbItem tbItem = itemMapper.selectByPrimaryKey(id);
+		Date created = tbItem.getCreated();
+		item.setUpdated(new Date());
+		item.setStatus((byte) 1);
+		item.setCreated(created);
+		itemMapper.updateByPrimaryKey(item);
+		//修改描述
+		TbItemDesc tbItemDesc = itemDescMapper.selectByPrimaryKey(id);
+		tbItemDesc.setUpdated(new Date());
+		tbItemDesc.setCreated(created);
+		tbItemDesc.setItemDesc(desc);
+		itemDescMapper.updateByPrimaryKey(tbItemDesc);
+		return MallResult.ok();
+	}
+
+	@Override
+	public MallResult instock(String[] ids) {
+		for (String id : ids) {
+			TbItem tbItem = itemMapper.selectByPrimaryKey(Long.valueOf(id));
+			Date created = tbItem.getCreated();
+			tbItem.setUpdated(new Date());
+			tbItem.setCreated(created);
+			tbItem.setStatus((byte) 2);
+			itemMapper.updateByPrimaryKey(tbItem);
+		}
+		return MallResult.ok();
+	}
+
+	@Override
+	public MallResult reshelf(String[] ids) {
+		for (String id : ids) {
+			TbItem tbItem = itemMapper.selectByPrimaryKey(Long.valueOf(id));
+			Date created = tbItem.getCreated();
+			tbItem.setUpdated(new Date());
+			tbItem.setCreated(created);
+			tbItem.setStatus((byte) 1);
+			itemMapper.updateByPrimaryKey(tbItem);
+		}
+		return MallResult.ok();
 	}
 	
 }

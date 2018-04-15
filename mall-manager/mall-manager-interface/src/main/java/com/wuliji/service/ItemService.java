@@ -12,4 +12,7 @@ public interface ItemService {
 	MallResult deleteItem(String[] ids);
 	MallResult editItem(Long id);
 	MallResult editItemDesc(Long id);
+	MallResult updateItem(TbItem item, String desc);
+	MallResult instock(String[] ids);
+	MallResult reshelf(String[] ids);
 }

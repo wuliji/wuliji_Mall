@@ -86,4 +86,34 @@ public class ItemController {
 		MallResult result = itemService.editItemDesc(id);
 		return result;
 	}
+	
+	/**
+	 * 更新商品信息
+	 */
+	@RequestMapping(value="/rest/item/update",method=RequestMethod.POST)
+	@ResponseBody
+	public MallResult updateItem(TbItem item, String desc) {
+		MallResult result = itemService.updateItem(item, desc);
+		return result;
+	}
+	
+	/**
+	 * 商品下架
+	 */
+	@RequestMapping("/rest/item/instock")
+	@ResponseBody
+	public MallResult instock(String[] ids) {
+		MallResult result = itemService.instock(ids);
+		return result;
+	}
+	
+	/**
+	 * 商品上架
+	 */
+	@RequestMapping("/rest/item/reshelf")
+	@ResponseBody
+	public MallResult reshelf(String[] ids) {
+		MallResult result = itemService.reshelf(ids);
+		return result;
+	}
 }
