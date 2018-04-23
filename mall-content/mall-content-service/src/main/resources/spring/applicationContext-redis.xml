@@ -18,7 +18,7 @@
 	</bean>
 	
 	<!-- 连接redis集群 -->
-	<bean class="com.wuliji.common.jedis.JedisClientCluster" id="jedisClintCluster">
+	<!-- <bean class="com.wuliji.common.jedis.JedisClientCluster" id="jedisClintCluster">
 		<property name="jedisCluster" ref="jedisCluster"></property>
 	</bean>
 	<bean class="redis.clients.jedis.JedisCluster" id="jedisCluster">
@@ -50,6 +50,6 @@
 				</bean>
 			</set>
 		</constructor-arg>
-	</bean>
+	</bean> -->
 	
 </beans>
