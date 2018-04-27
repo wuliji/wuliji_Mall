@@ -48,7 +48,7 @@ public class TestJedis {
 		nodes.add(new HostAndPort("192.168.25.128", 7006));
 		JedisCluster cluster = new JedisCluster(nodes);
 		//直接使用cluster对象关闭
-		cluster.set("clusterTest", "wuliji");
+		cluster.set("clusterTest", "wuliji2");
 		System.out.println(cluster.get("clusterTest"));
 		//关闭对象
 		cluster.close();
