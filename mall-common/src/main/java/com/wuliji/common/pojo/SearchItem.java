@@ -46,4 +46,11 @@ public class SearchItem implements Serializable{
 		this.category_name = category_name;
 	}
 	
+	public String[] getImages() {
+		if(image != null && !"".equals(image)) {
+			String[] strings = image.split(" ");
+			return strings;
+		}
+		return null;
+	}
 }

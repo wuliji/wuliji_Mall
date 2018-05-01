@@ -5,13 +5,13 @@
     <artifactId>mall-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>mall-protal-web</artifactId>
+  <artifactId>mall-search-web</artifactId>
   <packaging>war</packaging>
   
-   <dependencies>
+  <dependencies>
   	<dependency>
   		<groupId>com.wuliji</groupId>
-	    <artifactId>mall-content-interface</artifactId>
+	    <artifactId>mall-search-interface</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	<!-- dubbo相关 -->
@@ -95,7 +95,7 @@
 			<artifactId>tomcat7-maven-plugin</artifactId>
 			<configuration>
 				<path>/</path>
-				<port>8082</port>
+				<port>8086</port>
 			</configuration>
   		</plugin>
   	</plugins>
