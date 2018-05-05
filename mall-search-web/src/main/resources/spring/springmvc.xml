@@ -19,6 +19,8 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	<!-- 配置全局异常处理器 -->
+	<bean class="com.wuliji.search.exception.GlobalExceptionResolver"></bean>
 	<!-- 配置资源映射 -->
 	<mvc:resources location="/css/" mapping="/css/**"/>
 	<mvc:resources location="/js/" mapping="/js/**"/>
