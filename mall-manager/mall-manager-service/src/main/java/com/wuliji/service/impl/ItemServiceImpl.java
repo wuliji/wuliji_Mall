@@ -3,7 +3,15 @@ package com.wuliji.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -15,8 +23,6 @@ import com.wuliji.mapper.TbItemDescMapper;
 import com.wuliji.mapper.TbItemMapper;
 import com.wuliji.pojo.TbItem;
 import com.wuliji.pojo.TbItemDesc;
-import com.wuliji.pojo.TbItemDescExample;
-import com.wuliji.pojo.TbItemExample.Criteria;
 import com.wuliji.pojo.TbItemExample;
 import com.wuliji.service.ItemService;
 
@@ -32,6 +38,10 @@ public class ItemServiceImpl implements ItemService{
 	private TbItemMapper itemMapper;
 	@Autowired
 	private TbItemDescMapper itemDescMapper;
+	@Autowired
+	private JmsTemplate jmsTemplate;
+	@Resource
+	private Destination topicDestination;
 	
 	@Override
 	public TbItem getItemById(long itemId) {
@@ -63,7 +73,7 @@ public class ItemServiceImpl implements ItemService{
 	 */
 	public MallResult addItem(TbItem item, String desc) {
 		//生成商品id
-		long itemId = IDUtils.genItemId();
+		final long itemId = IDUtils.genItemId();
 		//补全item的属性
 		item.setId(itemId);
 		item.setStatus((byte) 1);
@@ -80,6 +90,14 @@ public class ItemServiceImpl implements ItemService{
 		itemDesc.setUpdated(new Date());
 		//向商品表插入数据
 		itemDescMapper.insert(itemDesc);
+		//发送商品添加的消息
+		jmsTemplate.send(topicDestination, new MessageCreator() {
+			
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				return session.createTextMessage(itemId + "");
+			}
+		});
 		//返回成功
 		return MallResult.ok();
 	}
