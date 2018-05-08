@@ -3,6 +3,7 @@ package com.wuliji.service;
 import com.wuliji.common.pojo.EasyUIDataGridResult;
 import com.wuliji.common.utils.MallResult;
 import com.wuliji.pojo.TbItem;
+import com.wuliji.pojo.TbItemDesc;
 
 public interface ItemService {
 	
@@ -15,4 +16,5 @@ public interface ItemService {
 	MallResult updateItem(TbItem item, String desc);
 	MallResult instock(String[] ids);
 	MallResult reshelf(String[] ids);
+	TbItemDesc getItemDescById(long itemId);
 }
