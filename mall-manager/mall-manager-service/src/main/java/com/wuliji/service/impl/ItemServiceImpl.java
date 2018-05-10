@@ -9,15 +9,19 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wuliji.common.jedis.JedisClient;
 import com.wuliji.common.pojo.EasyUIDataGridResult;
 import com.wuliji.common.utils.IDUtils;
+import com.wuliji.common.utils.JsonUtils;
 import com.wuliji.common.utils.MallResult;
 import com.wuliji.mapper.TbItemDescMapper;
 import com.wuliji.mapper.TbItemMapper;
@@ -42,10 +46,39 @@ public class ItemServiceImpl implements ItemService{
 	private JmsTemplate jmsTemplate;
 	@Resource
 	private Destination topicDestination;
+	@Autowired
+	private JedisClient jedisClient;
+	
+	@Value("${REDIS_ITEM_PRE}")
+	private String REDIS_ITEM_PRE;
+	@Value("${ITEM_CACHE_EXPIRE}")
+	private Integer ITEM_CACHE_EXPIRE;
 	
 	@Override
 	public TbItem getItemById(long itemId) {
-		return itemMapper.selectByPrimaryKey(itemId);
+		//查询缓存
+		try {
+			String json = jedisClient.get(REDIS_ITEM_PRE);
+			if(StringUtils.isNotBlank(json)) {
+				TbItem tbItem = JsonUtils.jsonToPojo(json, TbItem.class);
+				return tbItem;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//缓存没有，查询数据库
+		TbItem tbItem = itemMapper.selectByPrimaryKey(itemId);
+		if(tbItem != null) {
+			//把结果添加到缓存
+			try {
+				jedisClient.set(REDIS_ITEM_PRE + ":" + itemId + ":BASE", JsonUtils.objectToJson(tbItem));
+				//设置缓存过期时间
+				jedisClient.expire(REDIS_ITEM_PRE + ":" + itemId + ":BASE", ITEM_CACHE_EXPIRE);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return tbItem;
 	}
 
 	@Override
@@ -178,7 +211,27 @@ public class ItemServiceImpl implements ItemService{
 
 	@Override
 	public TbItemDesc getItemDescById(long itemId) {
+		//查询缓存
+		try {
+			String json = jedisClient.get(REDIS_ITEM_PRE);
+			if(StringUtils.isNotBlank(json)) {
+				TbItemDesc tbItemDesc = JsonUtils.jsonToPojo(json, TbItemDesc.class);
+				return tbItemDesc;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		TbItemDesc tbItemDesc = itemDescMapper.selectByPrimaryKey(itemId);
+		if(tbItemDesc != null) {
+			//把结果添加到缓存
+			try {
+				jedisClient.set(REDIS_ITEM_PRE + ":" + itemId + ":DESC", JsonUtils.objectToJson(tbItemDesc));
+				//设置缓存过期时间
+				jedisClient.expire(REDIS_ITEM_PRE + ":" + itemId + ":DESC", ITEM_CACHE_EXPIRE);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return tbItemDesc;
 	}
 	
