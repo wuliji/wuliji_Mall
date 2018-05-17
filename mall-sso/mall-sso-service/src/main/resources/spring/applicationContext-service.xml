@@ -21,5 +21,6 @@
 	<!-- 声明需要暴露的服务接口 -->
 	<dubbo:service interface="com.wuliji.service.RegisterService" ref="registerServiceImpl" timeout="600000"/>
 	<dubbo:service interface="com.wuliji.service.LoginService" ref="loginServiceImpl" timeout="600000"/>
+	<dubbo:service interface="com.wuliji.service.TokenService" ref="tokenServiceImpl" timeout="600000"/>
 	
 </beans>
