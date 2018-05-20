@@ -19,6 +19,11 @@
 	    <artifactId>mall-manager-interface</artifactId>
 	    <version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>com.wuliji</groupId>
+	    <artifactId>mall-sso-interface</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   	<!-- dubbo相关 -->
 	<dependency>
 		<groupId>com.alibaba</groupId>

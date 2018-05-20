@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.wuliji.cart.service.CartService;
 import com.wuliji.common.utils.CookieUtils;
 import com.wuliji.common.utils.JsonUtils;
 import com.wuliji.common.utils.MallResult;
 import com.wuliji.pojo.TbItem;
+import com.wuliji.pojo.TbUser;
 import com.wuliji.service.ItemService;
 
 /**
@@ -33,6 +35,8 @@ public class CartController {
 	private ItemService itemService;
 	@Value("${COOKIE_CART_EXPIRE}")
 	private Integer COOKIE_CART_EXPIRE;
+	@Autowired
+	private CartService cartService;
 	
 	/**
 	 * 添加商品到购物车
@@ -45,6 +49,14 @@ public class CartController {
 	@RequestMapping("/cart/add/{itemId}")
 	public String addCart(@PathVariable Long itemId, @RequestParam(defaultValue="1") Integer num, 
 			HttpServletRequest request, HttpServletResponse response) {
+		//判断用户登录状态
+		TbUser user = (TbUser) request.getAttribute("user");
+		if(user != null) {
+			//保存到服务端
+			cartService.addCart(user.getId(), itemId, num);
+			//返回逻辑视图
+			return "cartSuccess";
+		}
 		//从cookie中取购物车列表
 		List<TbItem> cartList = gerCartListFromCookie(request);
 		//判断商品在商品列表中是否存在
@@ -99,9 +111,19 @@ public class CartController {
 	 * @return
 	 */
 	@RequestMapping("/cart/cart")
-	public String showCartList(HttpServletRequest request) {
-		//从cookie中取购物车列表
+	public String showCartList(HttpServletRequest request, HttpServletResponse response) {
+		//从coolie中取购物车列表
 		List<TbItem> cartList = gerCartListFromCookie(request);
+		//判断用户是否为登录状态
+		TbUser user = (TbUser) request.getAttribute("user");
+		//如果为登录状态，从cookie去购物车列表，不为空把cookie中的购物车商品和redis中的商品信息合并
+		if(user != null) {
+			cartService.mergeCart(user.getId(), cartList);
+		}
+		//将cookie中的购物车信息删除
+		CookieUtils.deleteCookie(request, response, "cart");
+		//从redis服务端取购物车列表
+		cartList = cartService.getCartList(user.getId());
 		//把列表传递给页面
 		request.setAttribute("cartList", cartList);
 		//返回逻辑视图
@@ -120,6 +142,12 @@ public class CartController {
 	@ResponseBody
 	public MallResult updateCartNum(@PathVariable Long itemId, @PathVariable Integer num
 			, HttpServletRequest request, HttpServletResponse response) {
+		//判断用户是否登录
+		TbUser user = (TbUser) request.getAttribute("user");
+		if(user != null) {
+			cartService.updateCartNum(user.getId(), itemId, num);
+			return MallResult.ok();
+		}
 		//从cookie中取购物车列表
 		List<TbItem> cartList = gerCartListFromCookie(request);
 		//遍历商品列表找到对应的商品
@@ -139,6 +167,12 @@ public class CartController {
 	@RequestMapping("/cart/delete/${itemId}")
 	public String deleteCartItem(@PathVariable Long itemId, HttpServletRequest request
 			, HttpServletResponse response) {
+		//判断用户是否登录
+		TbUser user = (TbUser) request.getAttribute("user");
+		if(user != null) {
+			cartService.deleteCartItem(user.getId(), itemId);
+			return "redirect:/cart/cart.html";
+		}
 		//从cookie中取购物车列表
 		List<TbItem> cartList = gerCartListFromCookie(request);
 		//遍历列表，找到要删除的商品

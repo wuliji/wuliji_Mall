@@ -28,8 +28,17 @@
 	<!-- 配置资源映射 -->
 	<mvc:resources location="/css/" mapping="/css/**"/>
 	<mvc:resources location="/js/" mapping="/js/**"/>
+	<!-- 拦截器的配置 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.wuliji.cart.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 	<!-- 引用dubbo服务 -->
 	<dubbo:application name="mall-cart-web"/>
 	<dubbo:registry protocol="zookeeper" address="192.168.25.128:2181"/>
 	<dubbo:reference interface="com.wuliji.service.ItemService" id="itemService" />
+	<dubbo:reference interface="com.wuliji.service.TokenService" id="tokenService" />
+	<dubbo:reference interface="com.wuliji.cart.service.CartService" id="cartService" />
 </beans>
