@@ -12,4 +12,5 @@ public interface CartService {
 	List<TbItem> getCartList(Long userId);
 	MallResult updateCartNum(Long userId, Long itemId, Integer num);
 	MallResult deleteCartItem(Long userId, Long itemId);
+	MallResult clearCartItem(Long userId);
 }

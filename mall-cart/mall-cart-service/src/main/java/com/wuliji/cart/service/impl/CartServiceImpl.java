@@ -112,4 +112,11 @@ public class CartServiceImpl implements CartService {
 		return MallResult.ok();
 	}
 
+	@Override
+	public MallResult clearCartItem(Long userId) {
+		//删除购物车信息
+		jedisClient.del(REDIS_CART_PRE + ":" + userId);
+		return MallResult.ok();
+	}
+
 }
